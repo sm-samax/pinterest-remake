@@ -1,0 +1,11 @@
+a {
+    border-radius: 30px;
+    padding: 0.5vw 1.5vw;
+    text-decoration: none;
+    color: white;
+    font-size: var(--main-font-size);
+}
+
+a:hover {
+    background-color: rgb(20, 178, 20);
+}

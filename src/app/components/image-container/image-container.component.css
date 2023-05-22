@@ -1,0 +1,8 @@
+div.container {
+    padding: 3vw;
+    padding-top: 1vw;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 2vw;
+    column-gap: 2vw;
+}

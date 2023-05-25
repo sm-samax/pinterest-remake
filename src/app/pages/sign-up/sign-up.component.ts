@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -7,22 +8,33 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent {
-signUpRequest : FormGroup = new FormGroup({
-    email: new FormControl('', Validators.required),
-    username: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
-    confirmPassword: new FormControl('', Validators.required),
+signUpRequest : FormGroup = this.fb.group({
+    email: this.fb.control('', Validators.required),
+    username: this.fb.control('', Validators.required),
+    password: this.fb.control('', Validators.required),
+    confirmPassword: this.fb.control('', Validators.required),
   })
 
   invalid: boolean = false;
+
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService) {
+  }
 
   signUp() {
     if(this.signUpRequest.invalid)
     {
      this.invalid = true;
+     this.signUpRequest.reset();
     }
     else {
-      console.log(this.signUpRequest.value);
+      try {
+        this.auth.signup(this.signUpRequest.value);
+      } catch (error) {
+        this.invalid = true;
+        this.signUpRequest.reset();
+      }
     }
 
   }

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoginRequest } from 'src/app/models/login-request';
-import { LoginService } from 'src/app/services/login.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,14 +17,18 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private loginService: LoginService) {}
+    private authService: AuthService) {}
 
   login() {
     if(this.loginRequest.invalid) {
       this.invalid = true;
     }
     else {
-      this.loginService.login(this.loginRequest.value);
+      try {
+        this.authService.login(this.loginRequest.value);
+      } catch (error) {
+        this.invalid = true;
+      }
     }
   }
 }

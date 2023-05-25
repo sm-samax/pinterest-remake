@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
@@ -19,6 +20,7 @@ import { ImageContainerComponent } from './components/image-container/image-cont
 import { HoverIconComponent } from './components/hover-icon/hover-icon.component';
 import { NavigationButtonComponent } from './components/navigation-button/navigation-button.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { httpInterceptorProvider } from './interceptors';
 
 @NgModule({
   declarations: [
@@ -43,9 +45,10 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [httpInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

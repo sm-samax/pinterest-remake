@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ImageDto } from 'src/app/models/image-dto';
 
 @Component({
   selector: 'app-image-form',
@@ -7,5 +8,5 @@ import { Component, Input } from '@angular/core';
 })
 export class ImageFormComponent {
   @Input('image')
-  image!: string;
+  image!: ImageDto;
 }

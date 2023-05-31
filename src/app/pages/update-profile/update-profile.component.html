@@ -1,0 +1,28 @@
+<div [formGroup]="updateProfileRequest" class="container">
+    <div class="row">
+        <h1 class="align-middle">Update profile</h1>
+        <hr>
+    </div>
+    <div class="row">
+      <div class="col">
+        <img *ngIf="user.avatar" src={{user.avatar}} width="250px" class="circle"/>
+        <img *ngIf="!user.avatar" src='../../../assets/default-avatar.png' width="250px" class="circle"/>
+      </div>
+      <div class="col">
+        <div class="form-group row p-4">
+            <p class="row-form-label m-2">Email:</p>
+            <p class="row-form-label m-2">Username:</p>
+            <div class="form-group p-2">
+                <label for="formGroupExampleInput">Confirm with password</label>
+                <input type="password" class="form-control" id="formGroupExampleInput" formControlName="password" placeholder="Password">
+              </div>
+          </div>  
+        </div>
+        <div class="col">            
+            <div class="form-group row p-4">
+                <input type="text" placeholder={{user.email}} formControlName="email" class="form-control m-2">
+                <input type="text" placeholder={{user.username}} formControlName="username" class="form-control m-2">
+                <button (click)="updateProfile" class="row-form-label btn btn-primary m-2">Update</button>
+              </div>
+      </div>
+</div>

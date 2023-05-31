@@ -1,0 +1,9 @@
+import { UserDto } from "../models/user-dto";
+
+export const EXPIRATION_TIME: number = 15 * 60 * 1000;
+
+export const MOCK_USER: UserDto = {
+    accessToken: 'token',
+    username: 'Samuel Meszaros',
+    notifications: []
+}

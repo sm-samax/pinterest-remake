@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService) {}
+    private authService: AuthService,
+    private router: Router) {}
 
   login() {
     if(this.loginRequest.invalid) {
@@ -25,7 +27,7 @@ export class LoginComponent {
     }
     else {
       try {
-        this.authService.login(this.loginRequest.value);
+        this.authService.login(this.loginRequest.value).subscribe(res => this.router.navigate(['/profile']));
       } catch (error) {
         this.invalid = true;
       }

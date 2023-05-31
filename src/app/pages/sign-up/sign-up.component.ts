@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { catchError } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -19,23 +21,25 @@ signUpRequest : FormGroup = this.fb.group({
 
   constructor(
     private fb: FormBuilder,
-    private auth: AuthService) {
+    private auth: AuthService,
+    private router: Router) {
   }
 
   signUp() {
     if(this.signUpRequest.invalid)
     {
-     this.invalid = true;
-     this.signUpRequest.reset();
+      this.handleError();
     }
     else {
-      try {
-        this.auth.signup(this.signUpRequest.value);
-      } catch (error) {
-        this.invalid = true;
-        this.signUpRequest.reset();
-      }
+      this.auth.signup(this.signUpRequest.value).subscribe(
+        res => this.router.navigate(['/profile']),
+        err => this.handleError
+      );
     }
+  }
 
+  private handleError() {
+    this.invalid = true;
+     this.signUpRequest.reset();
   }
 }

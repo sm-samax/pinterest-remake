@@ -12,7 +12,7 @@ export class NavigatorComponent {
   }
 
   loggedIn() : boolean {
-    return this.auth.isLoggedIn;
+    return this.auth.isLoggedIn();
   }
 
   logout() {

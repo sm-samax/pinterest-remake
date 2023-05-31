@@ -1,0 +1,35 @@
+<div class="row p-2">
+    <h1>Upload image</h1>
+    <hr>
+</div>
+<form [formGroup]="imageUploadRequest" class="p-2 row">
+      <div class="col-sm-3 my-1">
+        <label class="sr-only" for="inlineFormInputGroupUsername">Image name</label>
+        <div class="input-group">
+          <input type="text" formControlName="name" class="form-control" id="inlineFormInputGroupUsername" placeholder="Image name">
+        </div>
+        <button (click)="uploadImage()" class="btn btn-primary m-3 btn-lg">Upload image</button>
+      </div>
+      <div class="col-sm-3 my-1">
+        <label class="sr-only" for="inlineFormInputGroupUsername">Tags</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Tags</div>
+          </div>
+          <input type="text" formControlName="tags" class="form-control" id="inlineFormInputGroupUsername" placeholder="Tags">
+          <small id="inlineFormInputGroupUsername" class="form-text text-muted">
+            You must separate each tag with a space character.
+          </small>
+        </div>
+      </div>
+        <div class="col-sm-3 my-1">
+            <label class="sr-only" for="inlineFormInputGroupUsername">Image</label>
+          <input type="file" (change)="loadImage($event)" class="form-control" id="inlineFormInputGroupUsername" placeholder="Tags"
+          accept="image/png, image/gif, image/jpeg, image/webp">
+          <small id="inlineFormInputGroupUsername" class="form-text text-muted">
+            File extension must be one of the following: jpg, png, gif, webp.
+            </small>
+        </div>
+  </form>
+  <h2 *ngIf="success" style="color: green">Successfully uploaded</h2>
+  <h2 *ngIf="error" style="color: red">Error during uploading</h2>

@@ -10,6 +10,9 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { AuthService } from './services/auth.service';
+import { UpdateProfileComponent } from './pages/update-profile/update-profile.component';
+import { UploadImageComponent } from './pages/upload-image/upload-image.component';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 
 
 const routes: Routes = [
@@ -18,7 +21,10 @@ const routes: Routes = [
   {path: 'discover', component: DiscoverComponent},
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignUpComponent},
-  {path: 'profile', component: ProfileComponent, canActivate: [() => inject(AuthService).canActivate()]},
+  {path: 'profile', component: ProfileComponent, canActivate: [() => inject(AuthService).canActivate()] },
+  {path: 'update-profile', component: UpdateProfileComponent, canActivate: [() => inject(AuthService).canActivate()] },
+  {path: 'upload-image', component: UploadImageComponent, canActivate: [() => inject(AuthService).canActivate()] },
+  {path: 'change-password', component: ChangePasswordComponent, canActivate: [() => inject(AuthService).canActivate()] },
   {path: 'notifications', component: NotificationsComponent, canActivate: [() => inject(AuthService).canActivate()]},
   {path: '**', pathMatch: 'full', component: NotFoundComponent}
 ];

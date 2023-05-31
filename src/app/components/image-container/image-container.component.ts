@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ImageDto } from 'src/app/models/image-dto';
 
 @Component({
   selector: 'app-image-container',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./image-container.component.css']
 })
 export class ImageContainerComponent {
-  images: string[] = ['./assets/dog.jpg', './assets/cat.jpg', './assets/bieber.jpg', './assets/parret.jpg', './assets/owl.jpg']
+  @Input("images")
+  images?: ImageDto[]; //= ['./assets/dog.jpg', './assets/cat.jpg', './assets/bieber.jpg', './assets/parret.jpg', './assets/owl.jpg']
 }

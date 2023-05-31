@@ -21,6 +21,9 @@ import { HoverIconComponent } from './components/hover-icon/hover-icon.component
 import { NavigationButtonComponent } from './components/navigation-button/navigation-button.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { httpInterceptorProvider } from './interceptors';
+import { UpdateProfileComponent } from './pages/update-profile/update-profile.component';
+import { UploadImageComponent } from './pages/upload-image/upload-image.component';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import { httpInterceptorProvider } from './interceptors';
     ImageContainerComponent,
     HoverIconComponent,
     NavigationButtonComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    UpdateProfileComponent,
+    UploadImageComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +54,7 @@ import { httpInterceptorProvider } from './interceptors';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [httpInterceptorProvider],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

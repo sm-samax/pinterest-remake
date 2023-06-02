@@ -1,6 +1,10 @@
-<form [formGroup]="loginRequest" (ngSubmit)="login()">
-    <input type="email" placeholder="Email" formControlName="email">
-    <input type="password" placeholder="Password" formControlName="password">
-    <button type="submit">Login</button>
+<form [formGroup]="loginRequest" class="form-control" (ngSubmit)="login()">
+    <h1 class="p-2">Login</h1>
+    <hr>
+    <div class="col-4">
+        <input type="email" class="form-control mb-3" placeholder="Email" formControlName="email">
+        <input type="password" class="form-control" placeholder="Password" formControlName="password">
+    </div>
+    <button type="submit" class="btn btn-primary m-3 btn-lg">Login</button>
     <p class="error" *ngIf="invalid">The email or the password was incorrect!</p>
 </form>

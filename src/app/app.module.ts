@@ -24,6 +24,7 @@ import { httpInterceptorProvider } from './interceptors';
 import { UpdateProfileComponent } from './pages/update-profile/update-profile.component';
 import { UploadImageComponent } from './pages/upload-image/upload-image.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { ProfileReadOnlyComponent } from './pages/profile-read-only/profile-read-only.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ChangePasswordComponent } from './pages/change-password/change-password
     SearchBarComponent,
     UpdateProfileComponent,
     UploadImageComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    ProfileReadOnlyComponent
   ],
   imports: [
     BrowserModule,

@@ -1,27 +1,27 @@
 <div class="container p-2">
     <div class="row mb-5">
-        <h1 class="align-middle">Profile</h1>
+        <h1 class="align-middle">{{user.username}}</h1>
         <hr>
     </div>
     <div class="row">
       <div class="col">
         <img *ngIf="user.avatar" src={{user.avatar}} width="250px" height="250px" class="circle"/>
-        <img *ngIf="!user.avatar" src='../../../assets/default-avatar.png' width="250px" height="250px" class="circle"/>
+        <img *ngIf="!user.avatar" src='../../../assets/default-avatar.png' width="250px" class="circle"/>
       </div>
       <div class="col">
         <div class="form-group row p-4">
             <p class="row-form-label">Email:</p>
             <p class="row-form-label">Username:</p>
-            <p class="row-form-label">Password:</p>
-            <a href="/update-profile" class="btn btn-primary m-3 btn-lg">Update profile</a>
+            <p class="row-form-label">Follows:</p>
+            <p class="row-form-label">Followers:</p>
           </div>  
         </div>
         <div class="col">            
             <div class="form-group row p-4">
                 <p class="row-form-label">{{user.email}}</p>
                 <p class="row-form-label">{{user.username}}</p>
-                <a href="/change-password" class="row-form-label btn btn-primary ">Change</a>
-                <a href="/upload-image" class="btn btn-primary m-3 btn-lg">Upload image</a>
+                <p class="row-form-label">{{user.follows?.length || 0}}</p>
+                <p class="row-form-label">{{user.followers?.length || 0}}</p>
               </div>
         </div>
     </div>

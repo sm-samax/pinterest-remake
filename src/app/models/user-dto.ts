@@ -1,7 +1,10 @@
 export class UserDto {
-    public email?: string;
+    public id!: number;
+    public email!: string;
     public username?: string;
     public accessToken?: string;
-    public notifications?: any[];
+    public notifications?: string[];
+    public followers?: UserDto[];
+    public follows?: UserDto[];
     public avatar?: string;
 }

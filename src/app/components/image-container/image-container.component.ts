@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { ImageDto } from 'src/app/models/image-dto';
 
 @Component({
@@ -8,5 +9,32 @@ import { ImageDto } from 'src/app/models/image-dto';
 })
 export class ImageContainerComponent {
   @Input("images")
-  images?: ImageDto[]; //= ['./assets/dog.jpg', './assets/cat.jpg', './assets/bieber.jpg', './assets/parret.jpg', './assets/owl.jpg']
+  images?: ImageDto[];
+
+  constructor(private router : Router) {
+
+  }
+
+  toggleFavorites(image : ImageDto) : Function {
+    return () => {
+      image.favorite = !image.favorite;
+    }
+  }
+
+  navigateToUser(image : ImageDto) : Function {
+    return () => {
+      this.router.navigateByUrl(`/profile/${image.ownerId}`);
+    }
+  }
+
+  download(image : ImageDto) : Function {
+    return () => {
+      const a = document.createElement('a')
+      a.href = image.src
+      a.download = image.name;
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+    }
+  }
 }

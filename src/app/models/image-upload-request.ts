@@ -1,4 +1,4 @@
 export class ImageUploadRequest {
-    name?: string;
+    name!: string;
     tags?: string;
 }

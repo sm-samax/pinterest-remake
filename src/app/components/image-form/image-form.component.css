@@ -1,13 +1,35 @@
-img {
-    cursor: pointer;
-    border-radius: 30px;
+.wrapper {
+    position: relative;
     width: var(--img-preview-size);
     height: var(--img-preview-size);
 }
 
-.overlay {
+.content {
+    position: relative;
+    border-radius: 30px;
     width: 100%;
     height: 100%;
-    opacity: 0.5;
-    background-color: white;
+}
+
+.overlay {
+    display: none;
+}
+
+.wrapper:hover .overlay {
+    border-radius: 30px;
+    position: absolute;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.corner {
+    position: absolute;
+    z-index: 2;
+    top: 5px;
+    left: 5px;
 }

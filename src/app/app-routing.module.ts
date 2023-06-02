@@ -13,6 +13,7 @@ import { AuthService } from './services/auth.service';
 import { UpdateProfileComponent } from './pages/update-profile/update-profile.component';
 import { UploadImageComponent } from './pages/upload-image/upload-image.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { ProfileReadOnlyComponent } from './pages/profile-read-only/profile-read-only.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignUpComponent},
   {path: 'profile', component: ProfileComponent, canActivate: [() => inject(AuthService).canActivate()] },
+  {path: 'profile/:id', component: ProfileReadOnlyComponent},
   {path: 'update-profile', component: UpdateProfileComponent, canActivate: [() => inject(AuthService).canActivate()] },
   {path: 'upload-image', component: UploadImageComponent, canActivate: [() => inject(AuthService).canActivate()] },
   {path: 'change-password', component: ChangePasswordComponent, canActivate: [() => inject(AuthService).canActivate()] },

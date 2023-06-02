@@ -1,4 +1,9 @@
 <div class="wrapper">
-    <img [src]=image.src alt="./assets/notfound.png">
-    <div class="overlay"></div>
+    <div class="overlay">
+        <app-hover-icon *ngIf="!image.favorite" (click)="favoritesFunction()" src="#" icon="../../../assets/star-empty.png"></app-hover-icon>
+        <app-hover-icon *ngIf="image.favorite" (click)="favoritesFunction()" src="#" icon="../../../assets/star-full.png"></app-hover-icon>
+        <app-hover-icon (click)="downloadFunction()" src="#" icon="../../../assets/download.png"></app-hover-icon>
+    </div>
+    <img class="content" [src]=image.src alt="">
+    <app-hover-icon class="corner" (click)="ownerFunction()" src="#" icon={{image.ownerAvatar}} [circle]="true"></app-hover-icon>
 </div>

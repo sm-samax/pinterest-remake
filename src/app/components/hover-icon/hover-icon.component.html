@@ -1,1 +1,4 @@
-<p>hover-icon works!</p>
+<button class="hover-icon">
+    <img *ngIf="!circle" class="hover-icon-content" src={{icon}} alt="">
+    <img *ngIf="circle" class="hover-icon-content circle" src={{icon}} alt="">
+</button>

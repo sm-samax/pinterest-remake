@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-hover-icon',
@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./hover-icon.component.css']
 })
 export class HoverIconComponent {
+  @Input('icon')
+  icon!: string;
+  @Input('src')
+  src!: string;
 
+  @Input('circle')
+  circle: boolean = false;
 }

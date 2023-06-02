@@ -1,8 +1,14 @@
-<form [formGroup]="signUpRequest" (ngSubmit)="signUp()">
-    <input type="email" placeholder="Email" formControlName="email">
-    <input type="text" placeholder="Username" formControlName="username">
-    <input type="password" placeholder="Password" formControlName="password">
-    <input type="password" placeholder="Confirm password" formControlName="confirmPassword">
-    <button type="submit">Sign up</button>
+<form [formGroup]="signUpRequest" (ngSubmit)="signUp()" class="form-control">
+    <h1 class="p-2">Sign up</h1>
+    <hr>
+    <div class="col-4 p-2">
+        <input type="email" class="form-control mb-3" placeholder="Email" formControlName="email">
+        <input type="text" class="form-control" placeholder="Username" formControlName="username">
+    </div>
+    <div class="col-4 p-2">
+        <input type="password" class="form-control mb-3" placeholder="Password" formControlName="password">
+        <input type="password" class="form-control" placeholder="Confirm password" formControlName="confirmPassword">
+    </div>
+    <button class="btn btn-primary m-3 btn-lg" type="submit">Sign up</button>
     <p class="error" *ngIf="invalid">Please fill every field properly!</p>
 </form>

@@ -1,5 +1,5 @@
 export class SignUpRequest {
-    private email?: string;
-    private username?: string;
-    private password?: string;
+    public email!: string;
+    public username!: string;
+    public password!: string;
 }

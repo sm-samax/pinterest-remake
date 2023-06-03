@@ -24,8 +24,9 @@
       </div>
         <div class="col-sm-3 my-1">
             <label class="sr-only" for="inlineFormInputGroupUsername">Image</label>
-          <input type="file" (change)="loadImage($event)" class="form-control" id="inlineFormInputGroupUsername" placeholder="Tags"
-          accept="image/png, image/gif, image/jpeg, image/webp">
+            <app-upload-image-form formControlName="file" [minsize]="50" [maxsize]="250" [defaultPreview]="'../../assets/attachment.png'"></app-upload-image-form>
+          <!-- <input type="file" (change)="loadImage($event)" class="form-control" id="inlineFormInputGroupUsername" placeholder="Tags"
+          accept="image/png, image/gif, image/jpeg, image/webp"> -->
           <small id="inlineFormInputGroupUsername" class="form-text text-muted">
             File extension must be one of the following: jpg, png, gif, webp.
             </small>

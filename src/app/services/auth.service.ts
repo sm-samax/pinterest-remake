@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { catchError, map, Observable, of, Subscription, tap } from 'rxjs';
-import { EXPIRATION_TIME, MOCK_CREDENTIALS, MOCK_USER, MOCK_USERS } from '../constants';
+import { EXPIRATION_TIME, MOCK_CREDENTIALS, MOCK_USER, MOCK_USER2, MOCK_USERS } from '../constants';
 import { LoginRequest } from '../models/login-request';
 import { SignUpRequest } from '../models/sign-up-request';
 import { UserDto } from '../models/user-dto';
@@ -12,27 +12,48 @@ import { UserDto } from '../models/user-dto';
 })
 export class AuthService {
 
-  public currentUser?: UserDto;
-
   constructor(
     private http: HttpClient,
     private router: Router
     ) {}
 
-  getUser() : Observable<UserDto> {
+  getCurrentUser() : Observable<UserDto> {
     // return this.http.get('http://localhost:8080/access', {headers: {'Authorization' : `Bearer ${localStorage.getItem('token')}`}});
-    return of(MOCK_USERS[parseInt(localStorage.getItem('token') || '')]);
+    let raw : string | null = localStorage.getItem('currentuser');
+    if(raw) {
+      return of(JSON.parse(raw));
+    }
+     
+    throw new Error();
+  }
+
+  getUsers() : UserDto[] {
+    let raw : string | null = localStorage.getItem('users');
+    return raw ? JSON.parse(raw) : [];
+  }
+
+  public getUser(id: number) : Observable<UserDto> {
+    return of(this.getUsers().filter(user => user.id === id)[0]);
+  }
+
+  getCredentials() : LoginRequest[] {
+    let raw : string | null = localStorage.getItem('credentials');
+    return raw ? JSON.parse(raw) : [];
   }
 
   login(loginRequest: LoginRequest) : Observable<UserDto>{
     // return this.http.post('http://localhost:8080/login', loginRequest)
     // .pipe(tap(res => this.setSession(res)));
-    for(let i = 0; i < MOCK_CREDENTIALS.length; i++) {
-      let credential = MOCK_CREDENTIALS[i];
+
+    let credentials : LoginRequest[] = this.getCredentials();
+    let users : UserDto[] = this.getUsers();
+
+    for(let i = 0; i < credentials.length; i++) {
+      let credential = credentials[i];
 
       if(loginRequest.email === credential.email &&
         loginRequest.password === credential.password) {
-          return of(MOCK_USERS[i])
+          return of(users[i])
           .pipe(tap(res => this.setSession(res)));
         }
     }
@@ -44,35 +65,39 @@ export class AuthService {
     // return this.http.post('http://localhost:8080/register', signUpRequest)
     // .pipe(tap(res => this.setSession(res)));
 
-    MOCK_CREDENTIALS.forEach(credential => {
+    let credentials : LoginRequest[] = this.getCredentials();
+    let users : UserDto[] = this.getUsers();
+
+    credentials.forEach(credential => {
       if(signUpRequest.email === credential.email) {
         throw new Error();
       }
     });
 
-    let newUser : UserDto = {
-      id: MOCK_USERS.length,
+    let user : UserDto = {
+      id: users.length,
       username: signUpRequest.username,
       email: signUpRequest.email,
       accessToken: 'token',
     }
 
-    MOCK_USERS.push(newUser);
+    users.push(user);
+    localStorage.setItem('users', JSON.stringify(users));
 
-    MOCK_CREDENTIALS.push({
-      email: signUpRequest.email || '',
-      password: signUpRequest.password || ''
-    });
+    let credential : LoginRequest = {
+      email: signUpRequest.email,
+      password: signUpRequest.password
+    }; 
 
-    console.log(MOCK_CREDENTIALS);
-    console.log(MOCK_USERS);
+    credentials.push(credential);
+    localStorage.setItem('credentials', JSON.stringify(credentials));
 
-    return of(newUser).pipe(tap(res => this.setSession(res)));
+    return of(user).pipe(tap(res => this.setSession(res)));
   }
 
   logout() {
+    localStorage.removeItem('currentuser');
     localStorage.removeItem('token');
-    this.currentUser = undefined;
   }
 
   canActivate() : boolean {
@@ -85,12 +110,12 @@ export class AuthService {
   }
 
   isLoggedIn() : boolean {
-    return localStorage.getItem('token') != undefined;
+    return localStorage.getItem('currentuser') != undefined;
   }
 
   private setSession(userDto: UserDto) {
     if(userDto.accessToken) {
-      this.currentUser = userDto;
+      localStorage.setItem('currentuser', JSON.stringify(userDto));
       localStorage.setItem('token', userDto.id.toString());
       setTimeout(() => this.logout, EXPIRATION_TIME);
     }

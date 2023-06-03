@@ -20,8 +20,10 @@ export class ProfileComponent implements OnInit{
       
   }
   ngOnInit(): void {
-    this.imageService.getImages().subscribe(res => this.images = res, this.handleError);
-    this.auth.getUser().subscribe(res => this.user = res, this.handleError);
+    this.auth.getCurrentUser().subscribe(res => {
+      this.user = res;
+      this.imageService.getImagesForUser(this.user.id).subscribe(res => this.images = res);
+    });
   }
 
   handleError() {

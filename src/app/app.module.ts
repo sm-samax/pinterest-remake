@@ -25,6 +25,7 @@ import { UpdateProfileComponent } from './pages/update-profile/update-profile.co
 import { UploadImageComponent } from './pages/upload-image/upload-image.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { ProfileReadOnlyComponent } from './pages/profile-read-only/profile-read-only.component';
+import { UploadImageFormComponent } from './components/upload-image-form/upload-image-form.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ProfileReadOnlyComponent } from './pages/profile-read-only/profile-read
     UpdateProfileComponent,
     UploadImageComponent,
     ChangePasswordComponent,
-    ProfileReadOnlyComponent
+    ProfileReadOnlyComponent,
+    UploadImageFormComponent
   ],
   imports: [
     BrowserModule,

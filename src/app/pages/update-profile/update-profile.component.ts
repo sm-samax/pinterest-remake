@@ -23,7 +23,7 @@ export class UpdateProfileComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.auth.getUser().subscribe(res => this.user = res, this.auth.logout);
+    this.auth.getUser(0).subscribe(res => this.user = res, this.auth.logout);
   }
 
   updateProfile() {

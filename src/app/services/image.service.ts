@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { MOCK_IMAGES, MOCK_USERS } from '../constants';
 import { ImageDto } from '../models/image-dto';
 import { ImageUploadRequest } from '../models/image-upload-request';
+import { UserDto } from '../models/user-dto';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -12,42 +13,47 @@ import { AuthService } from './auth.service';
 export class ImageService {
 
   constructor(private http: HttpClient,
-    private auth: AuthService) { }
+    private auth: AuthService) {
+    }
 
-  getImages() : Observable<ImageDto[]> {
-    // return this.http.get<ImageDto[]>('http://localhost:8080/images', {headers: new HttpHeaders(`Authorization: Bearer ${localStorage.getItem('token')}`)});
-    let id = parseInt(localStorage.getItem('token') || "");
-    return of(MOCK_IMAGES.filter(image => image.ownerId == id));
+  getImages() : ImageDto[] {
+    let raw : string | null = localStorage.getItem('images');
+    return raw ? JSON.parse(raw) : [];
   }
 
-  postImage(uploadRequest: ImageUploadRequest, file: File) : Observable<void> {
+  getImagesForUser(id: number) : Observable<ImageDto[]> {
+    return of(this.getImages().filter(image => image.ownerId === id));
+  }
+
+  getAllImages() : Observable<ImageDto[]> {
+    return of(this.getImages());
+  }
+
+  postImage(id: number, uploadRequest: ImageUploadRequest) : Observable<void> {
     // let form = new FormData();
     // form.append('uploadRequest', new Blob([JSON.stringify(uploadRequest)], {type: 'application/json'}))
     // form.append('file', file);
     // console.log(form);
     // return this.http.post<void>('http://localhost:8080/images', form,
     // {headers: {'Content-type' : [], 'Authorization' : `Bearer ${localStorage.getItem('token')}`}});
-    let id = parseInt(localStorage.getItem('token') || "");
 
-    let reader = new FileReader();
-    let url: string | ArrayBuffer | null | undefined = '';
+    // let url: string | ArrayBuffer | null | undefined = '';
 
-    reader.onload = (e) => {
-      url = e.target?.result;
-    }
-    reader.readAsDataURL(file);
+      let images = this.getImages();
 
-    let image :ImageDto = {
+      let image :ImageDto = {
       name: uploadRequest.name,
-      id: MOCK_IMAGES.length,
-      src: url,
-      ownerAvatar: MOCK_USERS[id - 1].avatar,
+      id: images.length,
+      src: uploadRequest.file,
+      ownerAvatar: uploadRequest.avatar || '../../assets/default-avatar.png',
       ownerId: id,
       favorite: false,
       tags: uploadRequest.tags
     }
 
-    MOCK_IMAGES.push(image);
+    images.push(image);
+
+    localStorage.setItem('images', JSON.stringify(images));
 
     return of();
   }

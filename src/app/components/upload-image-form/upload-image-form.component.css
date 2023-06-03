@@ -1,0 +1,16 @@
+.upload-form {
+    /* width: 250px; */
+    /* height: 250px; */
+    overflow: hidden;
+}
+
+#upload-input {
+    display: none;
+}
+
+#uploaded-img {
+    cursor: pointer;
+    border-radius: 30px;
+    /* height: 250px;
+    width: 250px; */
+}

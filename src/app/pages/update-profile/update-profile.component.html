@@ -5,8 +5,9 @@
     </div>
     <div class="row">
       <div class="col">
-        <img *ngIf="user.avatar" src={{user.avatar}} width="250px" class="circle"/>
-        <img *ngIf="!user.avatar" src='../../../assets/default-avatar.png' width="250px" class="circle"/>
+        <app-upload-image-form class="circle" [minsize]="250" [maxsize]="250" [defaultPreview]="user.avatar || '../../../assets/default-avatar.png'"></app-upload-image-form>
+        <!-- <img *ngIf="user.avatar" src={{user.avatar}} width="250px" class="circle"/> -->
+        <!-- <img *ngIf="!user.avatar" src='../../../assets/default-avatar.png' width="250px" class="circle"/> -->
       </div>
       <div class="col">
         <div class="form-group row p-4">

@@ -51,8 +51,6 @@ export class UploadImageFormComponent implements ControlValueAccessor, OnInit {
         reader.readAsDataURL(file);
       }
     }
-    else {
-    }
   }
 
   writeValue(obj: any): void {

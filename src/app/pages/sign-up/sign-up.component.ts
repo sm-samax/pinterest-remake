@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { catchError } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -40,6 +39,5 @@ signUpRequest : FormGroup = this.fb.group({
 
   private handleError() {
     this.invalid = true;
-     this.signUpRequest.reset();
   }
 }

@@ -6,6 +6,7 @@ import { EXPIRATION_TIME, MOCK_CREDENTIALS, MOCK_USER, MOCK_USER2, MOCK_USERS } 
 import { LoginRequest } from '../models/login-request';
 import { SignUpRequest } from '../models/sign-up-request';
 import { UserDto } from '../models/user-dto';
+import { UserUpdateRequest } from '../models/user-update-request';
 
 @Injectable({
   providedIn: 'root'
@@ -32,13 +33,65 @@ export class AuthService {
     return raw ? JSON.parse(raw) : [];
   }
 
+  getCredentials() : LoginRequest[] {
+    let raw : string | null = localStorage.getItem('credentials');
+    return raw ? JSON.parse(raw) : [];
+  }
+
   public getUser(id: number) : Observable<UserDto> {
     return of(this.getUsers().filter(user => user.id === id)[0]);
   }
 
-  getCredentials() : LoginRequest[] {
-    let raw : string | null = localStorage.getItem('credentials');
-    return raw ? JSON.parse(raw) : [];
+  updateUser(updateRequest: UserUpdateRequest) : Observable<boolean> {
+    
+    let current = JSON.parse(localStorage.getItem('currentuser') || '');
+    let credential : LoginRequest = this.getCredentials().filter(c => c.email === current.email)[0];
+      
+      if(credential.password === updateRequest.password) {
+        let users : UserDto[] = this.getUsers().filter(user => user.id !== current.id);
+
+        let credentials = this.getCredentials().filter(c => c.email !== credential.email);
+
+        if(updateRequest.email) {
+          current.email =  updateRequest.email;
+          credential.email = updateRequest.email;
+        }
+
+        if(updateRequest.username)
+        current.username = updateRequest.username;
+
+        if(updateRequest.avatar)
+        current.avatar = updateRequest.avatar;
+
+        users.push(current);
+        localStorage.setItem('users', JSON.stringify(users));
+
+        credentials.push(credential);
+        localStorage.setItem('credentials', JSON.stringify(credentials));
+
+        localStorage.setItem('currentuser', JSON.stringify(current));
+      } else {
+        throw new Error();
+      }
+
+      return of(true);
+  }
+
+  changePassword(user: UserDto, oldpassword: string, password: string) : Observable<boolean>{
+    let credentials = this.getCredentials();
+    let credential = credentials.filter(c => c.email === user.email)[0];
+    
+    if(credential.password !== oldpassword) {
+      throw new Error();
+    }
+
+    credential.password = password;
+    
+    credentials = credentials.filter(c => c.email !== user.email);
+    credentials.push(credential);
+    localStorage.setItem('credentials', JSON.stringify(credentials));
+
+    return of(true);
   }
 
   login(loginRequest: LoginRequest) : Observable<UserDto>{

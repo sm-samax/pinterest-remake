@@ -1,23 +1,33 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageDto } from 'src/app/models/image-dto';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-image-container',
   templateUrl: './image-container.component.html',
   styleUrls: ['./image-container.component.css']
 })
-export class ImageContainerComponent {
+export class ImageContainerComponent implements OnInit{
   @Input("images")
-  images?: ImageDto[];
+  images!: ImageDto[];
 
-  constructor(private router : Router) {
+  constructor(private router : Router, private auth : AuthService) {
 
+  }
+
+  ngOnInit(): void {
+    this.images.forEach(image => {
+        this.auth.isFavorites(image.id).subscribe(res => image.favorite = res);
+    })
   }
 
   toggleFavorites(image : ImageDto) : Function {
     return () => {
-      image.favorite = !image.favorite;
+      if(this.auth.canActivate()) {
+        image.favorite = !image.favorite;
+        this.auth.toggleFavorites(image.id);
+      }
     }
   }
 
@@ -36,5 +46,9 @@ export class ImageContainerComponent {
       a.click()
       document.body.removeChild(a)
     }
+  }
+
+  getAvatar(id: number) : string{
+    return this.auth.getAvatar(id);
   }
 }

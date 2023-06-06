@@ -9,6 +9,8 @@ import { ImageDto } from 'src/app/models/image-dto';
 export class ImageFormComponent {
   @Input('image')
   image!: ImageDto;
+  @Input('avatar')
+  avatar!: string;
   @Input('downloadFunction')
   downloadFunction!: Function;
   @Input('favoritesFunction')

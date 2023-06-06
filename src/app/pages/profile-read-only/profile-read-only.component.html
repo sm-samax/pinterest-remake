@@ -20,8 +20,9 @@
             <div class="form-group row p-4">
                 <p class="row-form-label">{{user.email}}</p>
                 <p class="row-form-label">{{user.username}}</p>
-                <p class="row-form-label">{{user.follows?.length || 0}}</p>
-                <p class="row-form-label">{{user.followers?.length || 0}}</p>
+                <p class="row-form-label">{{user.follows.length}}</p>
+                <p class="row-form-label">{{user.followers.length}}</p>
+                <button (click)="toggleFollow()" class="row-form-label btn btn-primary m-2">{{follows ? 'Unfollow' : 'Follow'}}</button>
               </div>
         </div>
     </div>

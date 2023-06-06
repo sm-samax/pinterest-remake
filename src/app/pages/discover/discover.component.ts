@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { MOCK_IMAGES } from 'src/app/constants';
 import { ImageDto } from 'src/app/models/image-dto';
 import { ImageService } from 'src/app/services/image.service';
 
 @Component({
   selector: 'app-discover',
   templateUrl: './discover.component.html',
-  styleUrls: ['./discover.component.css']
+  styleUrls: ['./discover.component.css'],
 })
 export class DiscoverComponent {
   images!: ImageDto[];
@@ -22,7 +21,7 @@ export class DiscoverComponent {
       regex = regex.toLowerCase();
 
       this.collection.forEach(image => {
-       if(image.name.toLowerCase().includes(regex) || image.tags?.includes(regex)) {
+       if(image.name.toLowerCase().includes(regex) || image.tags?.toLowerCase().includes(regex)) {
           filteredImages.push(image);
         }
       })

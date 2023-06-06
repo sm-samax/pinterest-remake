@@ -1,3 +1,3 @@
 <div class="container">
-    <app-image-form *ngFor="let image of images" [image]=image [downloadFunction]="download(image)" [ownerFunction]="navigateToUser(image)" [favoritesFunction]="toggleFavorites(image)"></app-image-form>
+    <app-image-form *ngFor="let image of images" [avatar]="getAvatar(image.ownerId)" [image]=image [downloadFunction]="download(image)" [ownerFunction]="navigateToUser(image)" [favoritesFunction]="toggleFavorites(image)"></app-image-form>
 </div>

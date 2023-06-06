@@ -1,13 +1,14 @@
 <nav>
     <ng-container *ngIf="loggedIn(); else loggedOut">
-        <app-navigation-button src="/" label="Home"></app-navigation-button>
+        <app-navigation-button src="/" label="Galer-io"></app-navigation-button>
         <app-navigation-button src="/discover" label="Discover"></app-navigation-button>
         <app-navigation-button src="/profile" label="Profile"></app-navigation-button>
-        <app-navigation-button src="/notifications" label="Notifications"></app-navigation-button>
+        <app-navigation-button src="/favorites" label="Favorites"></app-navigation-button>
+        <app-navigation-button src="/follows" label="Follows"></app-navigation-button>
         <app-navigation-button src="/login" label="Logout" (click)="logout()"></app-navigation-button>
     </ng-container>
     <ng-template #loggedOut>
-        <app-navigation-button src="/" label="Home"></app-navigation-button>
+        <app-navigation-button src="/" label="Galer-io"></app-navigation-button>
         <app-navigation-button src="/about" label="About"></app-navigation-button>
         <app-navigation-button src="/discover" label="Discover"></app-navigation-button>
         <app-navigation-button src="/login" label="Login"></app-navigation-button>

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { catchError, map, Observable, of, Subscription, tap } from 'rxjs';
-import { EXPIRATION_TIME, MOCK_CREDENTIALS, MOCK_USER, MOCK_USER2, MOCK_USERS } from '../constants';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable, of, tap } from 'rxjs';
+import { EXPIRATION_TIME } from '../constants';
 import { LoginRequest } from '../models/login-request';
 import { SignUpRequest } from '../models/sign-up-request';
 import { UserDto } from '../models/user-dto';
@@ -19,32 +19,103 @@ export class AuthService {
     ) {}
 
   getCurrentUser() : Observable<UserDto> {
-    // return this.http.get('http://localhost:8080/access', {headers: {'Authorization' : `Bearer ${localStorage.getItem('token')}`}});
+    return of(this.getCurrentUserDirectly());
+  }
+
+  private getUsers() : UserDto[] {
+    let raw : string | null = localStorage.getItem('users');
+    return raw ? JSON.parse(raw) : [];
+  }
+
+  private getCredentials() : LoginRequest[] {
+    let raw : string | null = localStorage.getItem('credentials');
+    return raw ? JSON.parse(raw) : [];
+  }
+
+  private getCurrentUserDirectly() : UserDto {
     let raw : string | null = localStorage.getItem('currentuser');
     if(raw) {
-      return of(JSON.parse(raw));
+      return JSON.parse(raw);
     }
      
     throw new Error();
   }
 
-  getUsers() : UserDto[] {
-    let raw : string | null = localStorage.getItem('users');
-    return raw ? JSON.parse(raw) : [];
-  }
-
-  getCredentials() : LoginRequest[] {
-    let raw : string | null = localStorage.getItem('credentials');
-    return raw ? JSON.parse(raw) : [];
+  private getUserDirectly(id: number) : UserDto {
+    return this.getUsers().filter(user => user.id === id)[0];
   }
 
   public getUser(id: number) : Observable<UserDto> {
-    return of(this.getUsers().filter(user => user.id === id)[0]);
+    return of(this.getUserDirectly(id));
   }
 
-  updateUser(updateRequest: UserUpdateRequest) : Observable<boolean> {
+  public getAvatar(id : number) : string {
+    return this.getUsers().filter(user => user.id === id)[0].avatar || '../../assets/default-avatar.png';
+  }
+
+  public isFollowed(id: number) : Observable<boolean> {
+    if(this.isLoggedIn()) {
+      let currentuser = this.getCurrentUserDirectly();
+      return of(currentuser.follows.includes(id));
+    }
+
+    return of(false);
+  }
+
+  public toggleFollow(id : number) {
+    let user : UserDto = this.getUserDirectly(id);
+    let currentuser = this.getCurrentUserDirectly();
+
+    if(currentuser.id === id) {
+      return;
+    }
+
+    if(!currentuser.follows.includes(id)) {
+      currentuser.follows.push(id);
+      user.followers.push(currentuser.id);
+    } 
+    else {
+      user.followers = user.followers.filter(u => u !== currentuser.id);
+      currentuser.follows = currentuser.follows.filter(u => u !== id);
+    }
+
+    this.saveUser(user);
+    this.saveUser(currentuser);
+    localStorage.setItem('currentuser', JSON.stringify(currentuser));
+  }
+
+  isFavorites(id: number) : Observable<boolean> {
+    if(this.isLoggedIn()) {
+      let currentuser = this.getCurrentUserDirectly();
+      return of(currentuser.favorites.includes(id));
+    }
+
+    return of(false);
+  }
+
+  toggleFavorites(id: number) {
+    let currentuser = this.getCurrentUserDirectly();
+
+    if(!currentuser.favorites.includes(id)) {
+      currentuser.favorites.push(id);
+    }
+    else {
+      currentuser.favorites = currentuser.favorites.filter(u => u !== id);
+    }
+
+    this.saveUser(currentuser);
+    localStorage.setItem('currentuser', JSON.stringify(currentuser));
+  }
+
+  private saveUser(user: UserDto) {
+    let users = this.getUsers().filter(u => u.id !== user.id);
+    users.push(user);
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+
+  public updateUser(updateRequest: UserUpdateRequest) : Observable<boolean> {
     
-    let current = JSON.parse(localStorage.getItem('currentuser') || '');
+    let current = this.getCurrentUserDirectly();
     let credential : LoginRequest = this.getCredentials().filter(c => c.email === current.email)[0];
       
       if(credential.password === updateRequest.password) {
@@ -63,8 +134,7 @@ export class AuthService {
         if(updateRequest.avatar)
         current.avatar = updateRequest.avatar;
 
-        users.push(current);
-        localStorage.setItem('users', JSON.stringify(users));
+        this.saveUser(current);
 
         credentials.push(credential);
         localStorage.setItem('credentials', JSON.stringify(credentials));
@@ -115,9 +185,6 @@ export class AuthService {
   }
 
   signup(signUpRequest: SignUpRequest) : Observable<UserDto>{
-    // return this.http.post('http://localhost:8080/register', signUpRequest)
-    // .pipe(tap(res => this.setSession(res)));
-
     let credentials : LoginRequest[] = this.getCredentials();
     let users : UserDto[] = this.getUsers();
 
@@ -131,11 +198,12 @@ export class AuthService {
       id: users.length,
       username: signUpRequest.username,
       email: signUpRequest.email,
-      accessToken: 'token',
+      favorites: [],
+      followers: [],
+      follows: [],
     }
 
-    users.push(user);
-    localStorage.setItem('users', JSON.stringify(users));
+    this.saveUser(user);
 
     let credential : LoginRequest = {
       email: signUpRequest.email,
@@ -150,7 +218,6 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('currentuser');
-    localStorage.removeItem('token');
   }
 
   canActivate() : boolean {
@@ -167,10 +234,7 @@ export class AuthService {
   }
 
   private setSession(userDto: UserDto) {
-    if(userDto.accessToken) {
       localStorage.setItem('currentuser', JSON.stringify(userDto));
-      localStorage.setItem('token', userDto.id.toString());
       setTimeout(() => this.logout, EXPIRATION_TIME);
-    }
   }
 }

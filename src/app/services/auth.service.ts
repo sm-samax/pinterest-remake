@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of, tap } from 'rxjs';
-import { EXPIRATION_TIME } from '../constants';
+import { DEFAULT_AVATAR, EXPIRATION_TIME } from '../constants';
 import { LoginRequest } from '../models/login-request';
 import { SignUpRequest } from '../models/sign-up-request';
 import { UserDto } from '../models/user-dto';
@@ -54,7 +54,7 @@ export class AuthService {
   }
 
   public getAvatar(id : number) : string {
-    return this.getUsers().filter(user => user.id === id)[0].avatar || '../../assets/default-avatar.png';
+    return this.getUsers().filter(user => user.id === id)[0].avatar || DEFAULT_AVATAR;
   }
 
   public isFollowed(id: number) : Observable<boolean> {
@@ -199,7 +199,7 @@ export class AuthService {
       id: users.length,
       username: signUpRequest.username,
       email: signUpRequest.email,
-      avatar: '../../assets/default-avatar.jpg',
+      avatar: DEFAULT_AVATAR,
       favorites: [],
       followers: [],
       follows: [],

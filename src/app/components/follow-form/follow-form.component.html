@@ -1,0 +1,9 @@
+<div class="follow">
+    <div>
+        <img class="avatar" src={{user.avatar}} (click)="onAvatar()" alt="Not found" class="avatar">
+        <p class="form-text text-center text-muted">{{user.username}}</p>
+    </div>
+    <div>
+        <button (click)="onFollow()" class="btn btn-primary m-3 btn-lg">{{follows ? 'Unfollow' : 'Follow'}}</button>
+    </div>
+</div>

@@ -13,7 +13,6 @@ export class ImageContainerComponent implements OnInit{
   images!: ImageDto[];
 
   constructor(private router : Router, private auth : AuthService) {
-
   }
 
   ngOnInit(): void {

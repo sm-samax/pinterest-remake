@@ -1,1 +1,18 @@
-<p>follows works!</p>
+<div class="row d-flex justify-content-center">
+    <div class="col-5 p-2">
+        <h2 class="text-center">Follows</h2>
+        <hr>
+        <div class="d-flex flex-column align-items-center gap-2">
+            <app-follow-form *ngFor="let user of follows" [user]="user"></app-follow-form>
+            <p *ngIf="follows.length == 0" class="text-center">It seems like you don't have any follows yet.</p>
+        </div>
+    </div>
+    <div class="col-5 p-2">
+        <h2 class="text-center">Followers</h2>
+        <hr>
+        <div class="d-flex flex-column align-items-center gap-2">
+            <app-follow-form *ngFor="let user of followers" [user]="user"></app-follow-form>
+            <p *ngIf="followers.length == 0" class="text-center">It seems like you don't have any followers yet.</p>
+        </div>
+    </div>
+</div>

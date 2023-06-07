@@ -49,6 +49,10 @@ export class AuthService {
     return of(this.getUserDirectly(id));
   }
 
+  public getMoreUsers(ids: number[]) : Observable<UserDto[]> {
+    return of(this.getUsers().filter(user => ids.includes(user.id)));
+  }
+
   public getAvatar(id : number) : string {
     return this.getUsers().filter(user => user.id === id)[0].avatar || '../../assets/default-avatar.png';
   }
@@ -165,9 +169,6 @@ export class AuthService {
   }
 
   login(loginRequest: LoginRequest) : Observable<UserDto>{
-    // return this.http.post('http://localhost:8080/login', loginRequest)
-    // .pipe(tap(res => this.setSession(res)));
-
     let credentials : LoginRequest[] = this.getCredentials();
     let users : UserDto[] = this.getUsers();
 
@@ -176,7 +177,7 @@ export class AuthService {
 
       if(loginRequest.email === credential.email &&
         loginRequest.password === credential.password) {
-          return of(users[i])
+          return of(users.filter(u => u.email == loginRequest.email)[0])
           .pipe(tap(res => this.setSession(res)));
         }
     }
@@ -198,6 +199,7 @@ export class AuthService {
       id: users.length,
       username: signUpRequest.username,
       email: signUpRequest.email,
+      avatar: '../../assets/default-avatar.png',
       favorites: [],
       followers: [],
       follows: [],

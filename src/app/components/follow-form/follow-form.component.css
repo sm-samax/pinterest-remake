@@ -1,0 +1,21 @@
+.follow {
+    width: 350px;
+    height: 150px;
+    border-radius: 36px;
+    border: 2px solid lightgray;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.avatar {
+    cursor: pointer;
+    border: 3px solid transparent;
+    width: 75px;
+    height: 75px;
+    border-radius: 360px;
+}
+
+.avatar:hover {
+    border: 3px solid rgb(20, 224, 20);
+}

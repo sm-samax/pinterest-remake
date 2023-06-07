@@ -199,7 +199,7 @@ export class AuthService {
       id: users.length,
       username: signUpRequest.username,
       email: signUpRequest.email,
-      avatar: '../../assets/default-avatar.png',
+      avatar: '../../assets/default-avatar.jpg',
       favorites: [],
       followers: [],
       follows: [],

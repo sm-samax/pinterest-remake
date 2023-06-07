@@ -29,7 +29,8 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "jszip"
+              "jszip",
+              "file-saver"
             ]
           },
           "configurations": {

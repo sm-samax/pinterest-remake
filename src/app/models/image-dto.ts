@@ -1,8 +1,9 @@
 export class ImageDto {
     id!: number;
     name!: string;
+    filename!: string;
     tags?: string;
     ownerId!: number;
-    src!: string;
+    data!: string;
     favorite!: boolean;
 }

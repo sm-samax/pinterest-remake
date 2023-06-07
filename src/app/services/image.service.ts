@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ImageDto } from '../models/image-dto';
@@ -36,10 +36,11 @@ export class ImageService {
       let images = this.getImages();
 
       let image :ImageDto = {
-      name: uploadRequest.name,
-      id: images.length,
-      src: uploadRequest.file,
-      ownerId: id,
+        id: images.length,
+        name: uploadRequest.name,
+        filename: uploadRequest.file.filename,
+        data: uploadRequest.file.data,
+        ownerId: id,
       favorite: false,
       tags: uploadRequest.tags
     }

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import * as FileSaver from 'file-saver';
 import { ImageDto } from 'src/app/models/image-dto';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -37,14 +38,7 @@ export class ImageContainerComponent implements OnInit{
   }
 
   download(image : ImageDto) : Function {
-    return () => {
-      const a = document.createElement('a')
-      a.href = image.src
-      a.download = image.name;
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-    }
+    return () => FileSaver.saveAs(image.data, image.filename);
   }
 
   getAvatar(id: number) : string{

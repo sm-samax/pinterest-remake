@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as FileSaver from 'file-saver';
 import * as JSZip from 'jszip';
 import { ImageDto } from 'src/app/models/image-dto';
 import { AuthService } from 'src/app/services/auth.service';
@@ -23,21 +24,7 @@ export class FavoritesComponent implements OnInit{
 
   download() {
     let zip = new JSZip();
-
-    this.favorites.forEach(image => {
-      let data = image.src;
-      let extension = '.'.concat(data.substring(data.indexOf('/') + 1, data.indexOf(';')));
-
-      zip.file(image.name.concat(extension), data.split(',')[1], {base64: true});
-    })
-
-    zip.generateAsync({type: 'blob'}).then(res => {
-      const a = document.createElement('a')
-      a.href = URL.createObjectURL(res);
-      a.download = 'collection.zip';
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-    })
+    this.favorites.forEach(image => zip.file(image.filename, image.data.split(',')[1], {base64: true}));
+    zip.generateAsync({type: 'blob'}).then(res => FileSaver.saveAs(res, 'collection.zip'));
   }
 }

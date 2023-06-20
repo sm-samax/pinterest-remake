@@ -5,7 +5,7 @@
     </div>
     <div class="row">
       <div class="col">
-        <app-upload-image-form formControlName="avatar" [minsize]="250" [maxsize]="250" [defaultPreview]="user.avatar || '../../../assets/default-avatar.png'"></app-upload-image-form>
+        <app-avatar-upload formControlName="avatar" [defaultPreview]="user.avatar || '../../../assets/default-avatar.png'"></app-avatar-upload>
       </div>
       <div class="col">
         <div class="form-group row p-4">

@@ -28,6 +28,7 @@ import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { UpdateProfileComponent } from './pages/update-profile/update-profile.component';
 import { UploadImageComponent } from './pages/upload-image/upload-image.component';
 import { FollowFormComponent } from './components/follow-form/follow-form.component';
+import { AvatarUploadComponent } from './components/avatar-upload/avatar-upload.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { FollowFormComponent } from './components/follow-form/follow-form.compon
     UploadImageFormComponent,
     FavoritesComponent,
     FollowsComponent,
-    FollowFormComponent
+    FollowFormComponent,
+    AvatarUploadComponent
   ],
   imports: [
     BrowserModule,

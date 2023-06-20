@@ -1,0 +1,6 @@
+<div class="upload-form">
+    <label for="upload-input">
+        <img id="uploaded-img" src={{preview}} alt="Not found">
+    </label>
+    <input type="file" (change)="writeValue($event)" id="upload-input" accept="image/*">
+</div>

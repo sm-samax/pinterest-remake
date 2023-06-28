@@ -1,7 +1,7 @@
 <h1 class="p-2">Favorites</h1>
 <hr>
 <div class="row w-100 p-2 align-items-center justify-content-center">
-    <div class="col-3">
+    <div *ngIf="favorites" class="col-3">
         <p *ngIf="favorites.length == 0">It seems like you don't have any favorites yet.</p>
         <button *ngIf="favorites.length != 0" (click)="download()" class="btn btn-primary btn-lg">Download collection</button>
     </div>

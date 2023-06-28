@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import * as FileSaver from 'file-saver';
 import { ImageDto } from 'src/app/models/image-dto';
@@ -9,17 +9,19 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './image-container.component.html',
   styleUrls: ['./image-container.component.css']
 })
-export class ImageContainerComponent implements OnInit{
+export class ImageContainerComponent implements OnChanges{
   @Input("images")
   images!: ImageDto[];
 
   constructor(private router : Router, private auth : AuthService) {
   }
 
-  ngOnInit(): void {
-    this.images.forEach(image => {
+  ngOnChanges() {
+    if(this.images) {
+      this.images.forEach(image => {
         this.auth.isFavorites(image.id).subscribe(res => image.favorite = res);
-    })
+      })
+    }
   }
 
   toggleFavorites(image : ImageDto) : Function {

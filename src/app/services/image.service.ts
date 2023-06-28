@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { distinctUntilChanged, Observable, retry } from 'rxjs';
 import { ImageDto } from '../models/image-dto';
 import { ImageUploadRequest } from '../models/image-upload-request';
 import { UserDto } from '../models/user-dto';
@@ -15,40 +15,30 @@ export class ImageService {
     private auth: AuthService) {
     }
 
-  getImages() : ImageDto[] {
-    let raw : string | null = localStorage.getItem('images');
-    return raw ? JSON.parse(raw) : [];
-  }
-
   getImagesForUser(id: number) : Observable<ImageDto[]> {
-    return of(this.getImages().filter(image => image.ownerId === id));
+    return this.http.get<ImageDto[]>(`http://localhost:8080/images/${id}`).pipe(distinctUntilChanged(), retry(3));
   }
 
   getFavoritesForUser(user : UserDto) : Observable<ImageDto[]> {
-    return of(this.getImages().filter(image => user.favorites.includes(image.id)));
+    return this.http.post<ImageDto[]>('http://localhost:8080/favorites', user.favorites).pipe(distinctUntilChanged(), retry(3));
   }
 
   getAllImages() : Observable<ImageDto[]> {
-    return of(this.getImages());
+    return this.http.get<ImageDto[]>('http://localhost:8080/images').pipe(distinctUntilChanged(), retry(3));
   }
 
   postImage(id: number, uploadRequest: ImageUploadRequest) : Observable<void> {
-      let images = this.getImages();
 
       let image :ImageDto = {
-        id: images.length,
+        id: 0,
         name: uploadRequest.name,
         filename: uploadRequest.file.filename,
         data: uploadRequest.file.data,
         ownerId: id,
-      favorite: false,
-      tags: uploadRequest.tags
-    }
+        favorite: false,
+        tags: uploadRequest.tags
+      }
 
-    images.push(image);
-
-    localStorage.setItem('images', JSON.stringify(images));
-
-    return of();
+    return this.http.post<void>('http://localhost:8080/images', image).pipe(retry(3));
   }
 }
